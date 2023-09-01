@@ -1,53 +1,27 @@
+const http = require("http");
 
-import { readFile, writeFile, appendFile, unlink, mkdir, rmdir } from "node:fs";
+const server = http.createServer((req, res) => {
+  const url = req.url;
 
-// DOSYA OKUMA
-// readFile("./password.txt", "utf-8", (err, data) => {
-//   err && console.log(err);
-//   data && console.log(data);
-// });
-
-// DOSYA YAZDIRMA
-writeFile(
-  "./example.txt",
-  "YENİ OLUŞTURULAN EXAMPLE.JS DOSYASI",
-  "utf-8",
-  (err) => {
-    if (err) console.log(err);
-    console.log("DOSYA BAŞARILI BİR ŞEKİLDE OLUŞTURULDU");
+  if (url === "/") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write("<h1>INDEX SAYFASI</h1>");
+  } else if (url === "/about") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write("<h1>ABOUT SAYFASI</h1>");
+  } else if (url === "/contact") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write("<h1>CONTACT SAYFASI</h1>");
+  } else {
+    res.writeHead(404, { "Content-Type": "text/html" });
+    res.write("<h1>404 SAYFA BULUNAMADI</h1>");
   }
-);
 
-writeFile("./example.json", '{"name":"Ziya","age":40}', "utf-8", (err) => {
-  if (err) console.log(err);
-  console.log("DOSYA BAŞARILI BİR ŞEKİLDE OLUŞTURULDU");
+  res.end();
 });
 
-// VERİ EKLEME
-// appendFile(
-//   "./example.txt",
-//   "\n ***************** YENİ VERİ ***************** \n Patika.DEV YENİ VERİ \n ***************** YENİ VERİ *****************",
-//   "utf-8",
-//   (err) => {
-//     if (err) console.log(err);
-//     console.log("DOSYAYA YENİ VERİ EKLENDİ");
-//   }
-// );
+const port = 3000;
 
-// DOSYA SİLMEK
-// unlink("./example1.txt", (err) => {
-//   if (err) console.log(err);
-//   console.log("DOSYA SİLİNDİ...!");
-// });
-
-//KLASOR OLUŞTURMA
-// mkdir("./upload/img", { recursive: true }, (err) => {
-//   if (err) console.log(err);
-//   console.log("DOSYA OLUŞTURULDU...!");
-// });
-
-// KLASÖR SİLME
-// rmdir("./upload", { recursive: true }, (err) => {
-//   if (err) console.log(err);
-//   console.log("DOSYA SİLİNDİ...!");
-// });
+server.listen(port, () => {
+  console.log(`Sunucu port ${port} de başlatıldı.`);
+});
